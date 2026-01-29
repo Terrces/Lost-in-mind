@@ -64,7 +64,7 @@ public class Inventory : MonoBehaviour
 
     public void RestoreItem()
     {
-        if(currentItem == null)
+        if(currentItem == null && items[currentItemIdx] != null)
         {
             currentItem = Instantiate(items[currentItemIdx],Point.transform);
         }

@@ -4,6 +4,10 @@ using UnityEngine;
 public class Stage : MonoBehaviour
 {
     public List<Room> rooms;
+    
+    public int PackagesDelivered;
+    public int PackagesNeedForComplite;
+
     public int maxRoomNumber;
 
     void Start()

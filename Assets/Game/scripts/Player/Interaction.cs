@@ -56,6 +56,8 @@ public class Interaction : MonoBehaviour
 
     public void PickUpPhysicsObjects(IPhysicsInteractable physicsInteractable)
     {
+        if(!physicsInteractable.Interactable) return;
+
         inventory.HideItem();
 
         carriedObject = physicsInteractable.Interact();

@@ -7,16 +7,15 @@ public class ChangeStage : MonoBehaviour, Iinteractable
 
     public PickUpPackageArea pickUpPackageArea;
 
-    public List<GameObject> stages;
+    public List<InspectorStage> Stages;
+    // public List<GameObject> stages;
     public int FirstStage = 0;
     private int currentStageNumber = 0;
     private GameObject currentStage;
 
     void Start()
     {
-        currentStageNumber = FirstStage;
-        currentStage = Instantiate(stages[FirstStage]);
-        if(pickUpPackageArea) pickUpPackageArea.stage = getStage(currentStage);
+        changeStage(FirstStage);
     }
 
     public void Interact()
@@ -26,8 +25,10 @@ public class ChangeStage : MonoBehaviour, Iinteractable
 
     public void NextStage()
     {
+        Stage stage = currentStage.GetComponent<Stage>(); 
+        if(stage.PackagesDelivered != stage.PackagesNeedForComplite) return;
 
-        if(currentStageNumber + 1 != stages.Count)
+        if(currentStageNumber + 1 != Stages.Count)
         {
             changeStage(currentStageNumber += 1);
         }
@@ -35,19 +36,15 @@ public class ChangeStage : MonoBehaviour, Iinteractable
 
     private void changeStage(int number)
     {
-        Destroy(currentStage);
+        if(currentStage) Destroy(currentStage);
         currentStageNumber = number;
-        currentStage = Instantiate(stages[currentStageNumber]);
+        currentStage = Instantiate(Stages[currentStageNumber].Stage);
+        getStage(currentStage).PackagesNeedForComplite = Stages[number].PackagesNeedForComplite;
         if(pickUpPackageArea) pickUpPackageArea.stage = getStage(currentStage);
     }
 
     private Stage getStage(GameObject _gameObject)
     {
         return _gameObject.GetComponent<Stage>();
-    }
-
-    void OnValidate()
-    {
-        
     }
 }

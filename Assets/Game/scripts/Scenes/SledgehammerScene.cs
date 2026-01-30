@@ -28,7 +28,7 @@ public class SledgehammerScene : MonoBehaviour, Iinteractable
         cutSceneCamera.transform.position = startCameraPosition;
         cutSceneCamera.transform.DOMove(startCutCameraPosition,0.5f);
         
-        cutSceneAnimation.Play("SledgeHammerPickup");
+        cutSceneAnimation.Play("PickupSledgehammer");
     }
 
     IEnumerator EndRoutine()

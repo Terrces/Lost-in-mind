@@ -7,12 +7,10 @@ public class Sledgehammer : MonoBehaviour,Iusable
 
     private bool IsAttacked;
 
-    [SerializeField] private float waitTime = 0.7f;
-    [SerializeField] private float maxDistance = 2;
+    [SerializeField] private float maxDistance = 1.5f;
 
-    IEnumerator Attack()
+    public void Attack()
     {
-        yield return new WaitForSeconds(waitTime);
         Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
         if (Physics.Raycast(ray, out RaycastHit hit, 15f))
         {
@@ -27,10 +25,10 @@ public class Sledgehammer : MonoBehaviour,Iusable
                     rigidbody.AddForce(direction * 15, ForceMode.Impulse);
                 }
 
-                if(hit.collider.TryGetComponent(out Idamageable idamageable))
+                if(hit.collider.TryGetComponent(out Destroyable destroyable))
                 {
-                    idamageable.TakeDamage(1);
-                    yield return null;
+                    destroyable.TakingDamage(1);
+                    return;
                 }
             }
         }
@@ -38,13 +36,12 @@ public class Sledgehammer : MonoBehaviour,Iusable
 
     public void Use()
     {
+        if (IsAttacked) return;
         if (TryGetComponent(out Animator attackAnimation))
         {
             Animation = attackAnimation;
-            attackAnimation.SetBool("Attack", true);
+            Animation.Play("Attack");
             IsAttacked = false;
-            StartCoroutine(Attack());
-
         }
     }
 
@@ -55,6 +52,6 @@ public class Sledgehammer : MonoBehaviour,Iusable
 
     public void AttackEnd()
     {
-        Animation.SetBool("Attack", false);
+        IsAttacked = false;
     }
 }

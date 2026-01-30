@@ -74,9 +74,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8652454419833454420}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6658333842038197273}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
       insertIndex: -1
@@ -90,19 +87,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
   m_PrefabInstance: {fileID: 6950858721080930853}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8652454419833454420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7833731159668903796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9990ce200b854a94bb3e8a229d08fb93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Package
-  roomNumber: 0
 --- !u!114 &6658333842038197273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WoodenBox
   Health: 1
   DestroyedModel: {fileID: 0}
+  roomNumber: 0
 --- !u!65 &515918467818055041
 BoxCollider:
   m_ObjectHideFlags: 0

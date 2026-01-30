@@ -1,6 +1,23 @@
+using System;
 using UnityEngine;
 
-public class Package : MonoBehaviour
+public class Package : Destroyable, IPhysicsInteractable
 {
-    public int roomNumber = 0;
+    public PackageStatus status = PackageStatus.Delivering;
+    public event Action OnDelivered;
+
+    public int RoomNumber = 0;
+    public PickUpPackageArea PackagesArea = null;
+    public bool Interactable {get; set;} = true;
+
+    public GameObject Interact()
+    {
+        return gameObject;
+    }
+
+    public void Delivered()
+    {
+        OnDelivered?.Invoke();
+        ToggleTakingDamage();
+    }
 }

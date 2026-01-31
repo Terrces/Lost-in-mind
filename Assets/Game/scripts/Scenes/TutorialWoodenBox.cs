@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class TutorialWoodenBox : Destroyable, Idamageable
+public class TutorialWoodenBox : Destroyable
 {
     [SerializeField] private SledgehammerScene scene;
-    public void TakeDamage(int value)
+    void Start()
+    {
+        OnDestroyed += TakeDamage;
+    }
+    public void TakeDamage()
     {
         scene.EndScene();
-        Destroy();
     }
 }

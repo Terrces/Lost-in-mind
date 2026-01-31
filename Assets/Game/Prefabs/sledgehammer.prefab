@@ -48,8 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60c8b6e998073be4981bc5ab6d7028be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Sledgehammer
-  restoreTime: 0.47
-  waitTime: 0.4
   maxDistance: 1.5
 --- !u!95 &8723011943618526748
 Animator:

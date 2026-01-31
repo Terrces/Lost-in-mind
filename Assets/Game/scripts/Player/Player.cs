@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
     public bool movingAvailable = true;
+    public bool lookAvailable = true;
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float jumpForce = 2.0f;
     [SerializeField] private float dropForce = 3f;
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour
 
     private void HandleCameraRotation()
     {
-        if(Cursor.lockState != CursorLockMode.Locked) return;
+        if(Cursor.lockState != CursorLockMode.Locked || !lookAvailable) return;
         Vector2 look = lookAction.ReadValue<Vector2>();
 
         if (gamepadMode) HandleGamepadCamera(look);

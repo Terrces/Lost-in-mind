@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Room : MonoBehaviour
 {
     public int roomNumber;
     public Transform PackagePoint;
+    public Light _light;
 
     void OnTriggerEnter(Collider other)
     {
@@ -13,12 +15,10 @@ public class Room : MonoBehaviour
             if (package.RoomNumber == roomNumber)
             {
                 package.Delivered();
+                _light.enabled = false;
                 if (PackagePoint != null && package.TryGetComponent(out Rigidbody rb))
                 {
-                    FindFirstObjectByType<Interaction>().DropObject();
-                    // rb.excludeLayers += LayerMask.NameToLayer("Player");
-                    package.transform.DOMove(new Vector3(PackagePoint.position.x, package.transform.position.y, PackagePoint.position.z), 0.2f);
-                    package.Interactable = false;
+                    StartCoroutine(delivered(package, rb));
                 }
                 else
                 {
@@ -27,6 +27,14 @@ public class Room : MonoBehaviour
             }
         }
     }
+
+    IEnumerator delivered(Package package, Rigidbody rb)
+    {
+        FindFirstObjectByType<Interaction>().DropObject();
+        package.Interactable = false;
+        yield return null;
+    }
+
     void OnTriggerExit(Collider other)
     {
         

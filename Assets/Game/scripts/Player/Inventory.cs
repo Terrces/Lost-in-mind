@@ -73,7 +73,7 @@ public class Inventory : MonoBehaviour
 
     public void HideItem()
     {
-        if (currentItem.TryGetComponent(out Animator animator))
+        if (currentItem != null && currentItem.TryGetComponent(out Animator animator))
         {
             animator.Play("Hide");
             currentItem = null;

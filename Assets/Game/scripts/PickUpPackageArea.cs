@@ -7,7 +7,6 @@ public class PickUpPackageArea : MonoBehaviour, Iinteractable
     public Stage stage;
     public List<PackagesData> AllPackages;
     public Package CurrentPackage;
-    private int previouslyRoomNumber = 0;
 
     public InteractionObjectTypes types {get;set;} = InteractionObjectTypes.Object;
 
@@ -15,26 +14,34 @@ public class PickUpPackageArea : MonoBehaviour, Iinteractable
     {
         if(CurrentPackage || (stage.PackagesDelivered == stage.PackagesNeedForComplite)) return;
         
-        GameObject _obj = Instantiate(objects[0],transform.position,Quaternion.Euler(Vector3.zero), FindAnyObjectByType<Stage>().transform); 
+        GameObject _obj;
+
+        if(objects.Count == 1)
+            _obj = Instantiate(objects[0],transform.position,Quaternion.Euler(Vector3.zero), FindAnyObjectByType<Stage>().transform); 
+        else
+            _obj = Instantiate(objects[Random.Range(0,objects.Count)],transform.position,Quaternion.Euler(Vector3.zero), FindAnyObjectByType<Stage>().transform); 
+
         Interaction interact = FindAnyObjectByType<Interaction>();
 
         if(_obj.TryGetComponent(out Package package))
         {
             package.RoomNumber = Random.Range(1,stage.maxRoomNumber+1);
             package.PackagesArea = this;
+            stage.rooms[package.RoomNumber-1]._light.enabled = true;
 
             package.OnDelivered += PackageDelivered;
             package.OnDestroyed += PackageDestroyed;
 
             CurrentPackage = package;
-
-            previouslyRoomNumber = package.RoomNumber;
         }
-        interact.PickUpPhysicsObjects(_obj.GetComponent<IPhysicsInteractable>());
+        interact.PickUpPhysicsObjects(_obj.GetComponent<PhysicalObject>());
+        gameObject.layer = LayerMask.NameToLayer("Triggers");
     }
 
     public void AddPackageData(int number, PackageStatus status)
     {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
         stage.PackagesDelivered += 1;
         PackagesData packageData = new PackagesData();
         packageData.PackageRoomNumber = number;
@@ -57,6 +64,7 @@ public class PickUpPackageArea : MonoBehaviour, Iinteractable
     {
         CurrentPackage.status = PackageStatus.Destroyed;
 
+        stage.rooms[CurrentPackage.RoomNumber-1]._light.enabled = false;
         AddPackageData(CurrentPackage.RoomNumber, PackageStatus.Destroyed);
 
         CurrentPackage = null;

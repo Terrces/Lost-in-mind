@@ -2,13 +2,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [SelectionBase]
-
 public class Player : MonoBehaviour
 {
     [Header("Movement Settings")]
     public bool movingAvailable = true;
     public bool lookAvailable = true;
+    public bool crouch = false;
+    [SerializeField] private float crouchSpeed = 3.5f;
     [SerializeField] private float moveSpeed = 5.0f;
+    [SerializeField] private float runSpeed = 8.0f;
     [SerializeField] private float jumpForce = 2.0f;
     [SerializeField] private float dropForce = 3f;
 
@@ -26,18 +28,22 @@ public class Player : MonoBehaviour
     private Vector3 velocity;
     private float xRotation = 0f;
     
+    public float Height = 0.25f;
+    private float startHeight;
     private InputAction moveAction => InputSystem.actions.FindAction("Move");
     private InputAction jumpAction => InputSystem.actions.FindAction("Jump");
     private InputAction lookAction => InputSystem.actions.FindAction("Look");
     // if you need interaction or attack
     private InputAction attackAction => InputSystem.actions.FindAction("Attack");
     private InputAction interactAction => InputSystem.actions.FindAction("Interact");
+    private InputAction crouchAction => InputSystem.actions.FindAction("Crouch");
     private Interaction interactionComponent => GetComponent<Interaction>();
     private Inventory inventoryComponent => GetComponent<Inventory>();
 
     private void Start()
     {
         if (tag == "Untagged") tag = "Player";
+        startHeight = characterController.height;
     }
     
     private void Update()
@@ -46,7 +52,24 @@ public class Player : MonoBehaviour
         HandleMovement();
          // if you need interaction or attack
         if (interactAction.WasPressedThisFrame()) interactionComponent.TryInteract();
-        // if (attackAction.WasPressedThisFrame() && interactionComponent.carriedObject != null) interactionComponent.CheckAction(dropForce);
+        if (attackAction.WasPressedThisFrame() && interactionComponent.ObjectIsCarried) interactionComponent.DropObject(dropForce);
+        if (crouchAction.WasPressedThisFrame())
+        {
+            if(TryGetComponent(out RigidbodyController component) && component.RigidbodyIsActive) return; 
+            if(Physics.SphereCast(new Ray(gameObject.transform.position, gameObject.transform.up), 0.15f, 1f))
+            {
+                if(component) component.SetRigidbodyActive();
+                return;
+            }
+            
+            if (!crouch)
+                characterController.height = Height;
+            else
+                characterController.height = startHeight;
+
+            crouch = !crouch;
+        }
+
         if (attackAction.WasPressedThisFrame())
         {
             ChangeCursoreMode();
@@ -99,7 +122,17 @@ public class Player : MonoBehaviour
             velocity.y += Physics.gravity.y * Time.deltaTime;
         }
 
-        Vector3 motion = move.normalized * moveSpeed;
+        Vector3 motion;
+
+        if (crouch)
+            motion = move.normalized * crouchSpeed;
+            
+        else if(GetComponent<Interaction>().ObjectIsCarried == true)
+            motion = move.normalized * moveSpeed;
+
+        else
+            motion = move.normalized * runSpeed;
+        
         motion.y = velocity.y;
 
         CollisionFlags flags = characterController.Move(motion * Time.deltaTime);

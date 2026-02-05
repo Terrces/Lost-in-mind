@@ -208,6 +208,22 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 850634922413150260, guid: 1fc23fc9c4f13c14eac89d0d58b4f09d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487153212062751579, guid: 1fc23fc9c4f13c14eac89d0d58b4f09d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1649234939578062312, guid: 1fc23fc9c4f13c14eac89d0d58b4f09d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6878732458246087914, guid: 1fc23fc9c4f13c14eac89d0d58b4f09d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7493092924323337678, guid: 1fc23fc9c4f13c14eac89d0d58b4f09d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.006
@@ -1026,7 +1042,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1

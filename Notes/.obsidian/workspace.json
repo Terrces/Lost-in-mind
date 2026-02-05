@@ -27,7 +27,7 @@
       {
         "id": "7b1571e33b4566e6",
         "type": "tabs",
-        "dimension": 60.333935018050546,
+        "dimension": 60.33393501805054,
         "children": [
           {
             "id": "93dfdbe46e366568",
@@ -39,6 +39,7 @@
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": [
+                    false,
                     false,
                     false,
                     false,
@@ -107,7 +108,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 212.5
   },
   "right": {
     "id": "f163ac740b3f305f",
@@ -213,10 +214,10 @@
       "obsidian-kanban:Создать новую доску": false
     }
   },
-  "active": "93dfdbe46e366568",
+  "active": "aa63e0591b8a899f",
   "lastOpenFiles": [
-    "About game.md",
     "To-Do.md",
+    "About game.md",
     "Без названия.md"
   ]
 }

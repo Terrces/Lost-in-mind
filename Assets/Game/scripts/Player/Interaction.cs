@@ -7,21 +7,22 @@ public class Interaction : MonoBehaviour
     public LayerMask PhysicsObjectExclude;
 
     public float pickedUpMoveObjectSpeed = 15;
-    private GameObject carriedObject = null;
+    private PhysicalObject carriedObject = null;
     private Rigidbody carriedObjectRigidbodyComponent = null;
+    public bool ObjectIsCarried = false;
 
     private Player player => GetComponent<Player>();
     private Inventory inventory => GetComponent<Inventory>();
     
     void FixedUpdate()
     {
-        if (!carriedObject) inventory.RestoreItem();
         if (!carriedObject) return;
 
-        Vector3 target = Point.TransformPoint(new Vector3(0,0,1));
+        Vector3 target = Point.TransformPoint(carriedObject.offset);
+
         Vector3 delta = target - carriedObjectRigidbodyComponent.position;
 
-        if (delta.sqrMagnitude > 25)
+        if (delta.sqrMagnitude > 4)
         {
             DropObject();
             return;
@@ -47,20 +48,21 @@ public class Interaction : MonoBehaviour
             {
                 interaction.Interact();
             }
-            if (hit.collider.TryGetComponent(out IPhysicsInteractable physicsInteractable))
+            if (hit.collider.TryGetComponent(out PhysicalObject physicsInteractable))
             {
                 PickUpPhysicsObjects(physicsInteractable);
             }
         }
     }
 
-    public void PickUpPhysicsObjects(IPhysicsInteractable physicsInteractable)
+    public void PickUpPhysicsObjects(PhysicalObject physicsInteractable)
     {
         if(!physicsInteractable.Interactable) return;
+        ObjectIsCarried = true;
 
         inventory.HideItem();
 
-        carriedObject = physicsInteractable.Interact();
+        carriedObject = physicsInteractable;
         carriedObjectRigidbodyComponent = carriedObject.GetComponent<Rigidbody>();
 
         carriedObjectRigidbodyComponent.excludeLayers += PhysicsObjectExclude;
@@ -74,8 +76,10 @@ public class Interaction : MonoBehaviour
 
     public void DropObject(float force = 0f)
     {
+        if(!carriedObject) return;
         Vector3 dir = Point ? Point.forward : Vector3.zero;
 
+        ObjectIsCarried = false;
         carriedObjectRigidbodyComponent.AddForce(dir * force, ForceMode.Impulse);
 
         carriedObjectRigidbodyComponent.excludeLayers -= PhysicsObjectExclude;
@@ -88,5 +92,4 @@ public class Interaction : MonoBehaviour
 
         inventory.RestoreItem();
     }
-
 }

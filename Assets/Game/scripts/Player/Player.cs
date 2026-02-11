@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 [SelectionBase]
 public class Player : MonoBehaviour
 {
+    [Header("Characteristics")]
+    public int HeathPoints = 5;
+    public float dropForce = 3f;
+
     [Header("Movement Settings")]
     public bool movingAvailable = true;
     public bool lookAvailable = true;
@@ -12,7 +16,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float runSpeed = 8.0f;
     [SerializeField] private float jumpForce = 2.0f;
-    [SerializeField] private float dropForce = 3f;
 
     [Header("Camera Settings")]
     // mouse properties
@@ -40,6 +43,7 @@ public class Player : MonoBehaviour
     private Interaction interactionComponent => GetComponent<Interaction>();
     private Inventory inventoryComponent => GetComponent<Inventory>();
 
+    private InputAction toggleItem => InputSystem.actions.FindAction("ItemSwitch");
     private void Start()
     {
         if (tag == "Untagged") tag = "Player";
@@ -53,6 +57,10 @@ public class Player : MonoBehaviour
          // if you need interaction or attack
         if (interactAction.WasPressedThisFrame()) interactionComponent.TryInteract();
         if (attackAction.WasPressedThisFrame() && interactionComponent.ObjectIsCarried) interactionComponent.DropObject(dropForce);
+        if (toggleItem.WasPressedThisFrame())
+        {
+            inventoryComponent.ToggleItem();
+        }
         if (crouchAction.WasPressedThisFrame())
         {
             if(TryGetComponent(out RigidbodyController component) && component.RigidbodyIsActive) return; 

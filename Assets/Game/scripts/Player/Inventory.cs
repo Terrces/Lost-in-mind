@@ -1,12 +1,48 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    List<GameObject> items = new List<GameObject>();
+    // List<GameObject> items = new List<GameObject>();
     public Transform Point;
     private GameObject currentItem;
+    public bool HideCurrentItem;
     private int currentItemIdx;
+
+    public MainGUI gui;
+    private int toggleCounts;
+
+    void Start()
+    {
+        gui = FindFirstObjectByType<MainGUI>();
+        ToggleItem();
+    }
+
+    public void ToggleItem()
+    {
+        Debug.Log(toggleCounts);
+        if(toggleCounts == 1)
+        {
+            HideCurrentItem = false;
+            if (!GetComponent<Interaction>().ObjectIsCarried)
+            {
+                RestoreItem();
+            }
+        }
+        else
+        {
+            HideCurrentItem = true;
+            HideItem();
+        }
+
+        gui.ToggleItem();
+
+        toggleCounts += 1;
+
+        if(toggleCounts > 2)
+        {
+            toggleCounts = 0;
+        }
+    }
 
     public void UseItem()
     {
@@ -24,9 +60,9 @@ public class Inventory : MonoBehaviour
 
     public bool CheckAvailable(GameObject _item)
     {
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < InventoryHandler.Items.Count; i++)
         {
-            if (items[i] != _item)
+            if (InventoryHandler.Items[i] != _item)
             {
                 continue;
             }
@@ -43,31 +79,30 @@ public class Inventory : MonoBehaviour
     {
         if(!_item) return;
         
-        items.Add(_item);
+        InventoryHandler.Items.Add(_item);
 
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < InventoryHandler.Items.Count; i++)
         {
-            if (items[i] == _item)
+            if (InventoryHandler.Items[i] == _item)
             {
                 GetItem(i);
             }
         }
-
-
     }
 
     public void GetItem(int value)
     {
         currentItemIdx = value;
-        currentItem = Instantiate(items[value],Point.transform);
+        currentItem = Instantiate(InventoryHandler.Items[value],Point.transform);
+        if(HideCurrentItem) Destroy(currentItem);
     }
 
     public void RestoreItem()
     {
-        if(items.Count == 0) return;
-        if(currentItem == null && items[currentItemIdx] != null)
+        if(InventoryHandler.Items.Count == 0 || HideCurrentItem) return;
+        if(currentItem == null && InventoryHandler.Items[currentItemIdx] != null)
         {
-            currentItem = Instantiate(items[currentItemIdx],Point.transform);
+            currentItem = Instantiate(InventoryHandler.Items[currentItemIdx],Point.transform);
         }
     }
 

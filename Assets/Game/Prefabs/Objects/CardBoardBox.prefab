@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6768322800916925550}
-  - component: {fileID: 2479853964613066227}
+  - component: {fileID: 1032119229308860784}
   - component: {fileID: 2205165233494694469}
   - component: {fileID: 8055277703486420133}
+  - component: {fileID: 995585653296517104}
   m_Layer: 0
   m_Name: CardBoardBox
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   - {fileID: 4427316691540352482}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2479853964613066227
+--- !u!114 &1032119229308860784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,12 +45,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5442934138867116454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c374eae8d32a2e4999b6278db1a2875, type: 3}
+  m_Script: {fileID: 11500000, guid: 9990ce200b854a94bb3e8a229d08fb93, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WoodenBox
+  m_EditorClassIdentifier: Assembly-CSharp::Package
   AvaliableTakingDamage: 1
   Health: 1
   DestroyedModel: {fileID: 0}
+  Items: {fileID: 0}
+  repeatCountForDestroyedModel: 1
   offset: {x: 0, y: -0.8, z: 0.9}
   status: 2
   RoomNumber: 0
@@ -102,6 +105,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 0.8, z: 0.8}
   m_Center: {x: 0, y: 0.4, z: 0}
+--- !u!114 &995585653296517104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442934138867116454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de492f0ee77a6e74fa8e4ca2ea78da32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliveDeliveryPackage
+  HealthPoints: 5
+  TakingDamageIsAvailable: 1
+  RegenerationIsAvailable: 0
+  WaitTime: 5
 --- !u!1001 &4249784444289219081
 PrefabInstance:
   m_ObjectHideFlags: 0

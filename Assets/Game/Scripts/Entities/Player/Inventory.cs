@@ -7,6 +7,8 @@ public class Inventory : MonoBehaviour
     private GameObject currentItem;
     public bool HideCurrentItem;
     private int currentItemIdx;
+    private uint emptyItemIndx = 0;
+    private uint emptySecondaryItemIndx = 2;
 
     public MainGUI gui;
     private int toggleCounts;
@@ -19,7 +21,6 @@ public class Inventory : MonoBehaviour
 
     public void ToggleItem()
     {
-        Debug.Log(toggleCounts);
         if(toggleCounts == 1)
         {
             HideCurrentItem = false;
@@ -28,28 +29,22 @@ public class Inventory : MonoBehaviour
                 RestoreItem();
             }
         }
-        else
+        else if((toggleCounts == emptyItemIndx) || (toggleCounts == emptySecondaryItemIndx))
         {
             HideCurrentItem = true;
             HideItem();
         }
 
-        gui.ToggleItem();
+        gui.SetItemIcon(toggleCounts);
 
         toggleCounts += 1;
 
-        if(toggleCounts > 2)
-        {
-            toggleCounts = 0;
-        }
+        if(toggleCounts > emptySecondaryItemIndx) toggleCounts = 0;
     }
 
     public void UseItem()
     {
-        if (currentItem != null && currentItem.TryGetComponent(out Iusable use))
-        {
-            use.Use();
-        }
+        if (currentItem != null && currentItem.TryGetComponent(out Iusable use)) use.Use();
     }
 
     public GameObject GetCurrentItem()
@@ -62,14 +57,8 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < InventoryHandler.Items.Count; i++)
         {
-            if (InventoryHandler.Items[i] != _item)
-            {
-                continue;
-            }
-            else
-            {
-                return false;
-            }
+            if (InventoryHandler.Items[i] != _item) continue;
+            else return false;
         }
 
         return true;
@@ -83,10 +72,7 @@ public class Inventory : MonoBehaviour
 
         for (int i = 0; i < InventoryHandler.Items.Count; i++)
         {
-            if (InventoryHandler.Items[i] == _item)
-            {
-                GetItem(i);
-            }
+            if (InventoryHandler.Items[i] == _item) GetItem(i);
         }
     }
 

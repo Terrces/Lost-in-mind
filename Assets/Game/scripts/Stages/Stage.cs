@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class Stage : MonoBehaviour
@@ -9,6 +10,7 @@ public class Stage : MonoBehaviour
     public int PackagesNeedForComplite;
 
     public int maxRoomNumber;
+    public NavMeshSurface navMeshSurface;
 
     void Start()
     {
@@ -23,6 +25,8 @@ public class Stage : MonoBehaviour
                 maxRoomNumber = room.roomNumber;
             }
         }
+        
+        navMeshSurface?.BuildNavMesh();
     }
 
 }

@@ -1,24 +1,25 @@
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 
-public class ChangeStage : MonoBehaviour, Iinteractable
+public class ChangeStage : Interactable
 {
-    public InteractionObjectTypes types {get;set;} = InteractionObjectTypes.Object;
 
     public PickUpPackageArea pickUpPackageArea;
 
     public List<InspectorStage> Stages;
-    // public List<GameObject> stages;
     public int FirstStage = 0;
     private int currentStageNumber = 0;
-    private GameObject currentStage;
+    public GameObject currentStage {get; private set;}
+    public NavMeshSurface navMeshSurface;
 
+    void Awake() => Interacted += ObjectInteraction;
     void Start()
     {
         changeStage(FirstStage);
     }
 
-    public void Interact()
+    public void ObjectInteraction()
     {
         NextStage();
     }
@@ -26,12 +27,9 @@ public class ChangeStage : MonoBehaviour, Iinteractable
     public void NextStage()
     {
         Stage stage = currentStage.GetComponent<Stage>(); 
-        if(stage.PackagesDelivered != stage.PackagesNeedForComplite) return;
+        if((stage.PackagesDelivered != stage.PackagesNeedForComplite) || (currentStageNumber + 1 == Stages.Count)) return;
 
-        if(currentStageNumber + 1 != Stages.Count)
-        {
-            changeStage(currentStageNumber += 1);
-        }
+        changeStage(currentStageNumber += 1);
     }
 
     private void changeStage(int number)
@@ -41,6 +39,7 @@ public class ChangeStage : MonoBehaviour, Iinteractable
         currentStage = Instantiate(Stages[currentStageNumber].Stage);
         getStage(currentStage).PackagesNeedForComplite = Stages[number].PackagesNeedForComplite;
         if(pickUpPackageArea) pickUpPackageArea.stage = getStage(currentStage);
+        currentStage.GetComponent<Stage>().navMeshSurface = navMeshSurface;
     }
 
     private Stage getStage(GameObject _gameObject)

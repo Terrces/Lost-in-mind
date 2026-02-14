@@ -350,6 +350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6409bf7279668fa4c9cda0fdef878b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  HealthPoints: 5
+  RegenerationIsAvailable: 1
+  DropForce: 3
   movingAvailable: 1
   lookAvailable: 1
   crouch: 0
@@ -357,7 +360,6 @@ MonoBehaviour:
   moveSpeed: 5
   runSpeed: 8
   jumpForce: 0
-  dropForce: 2
   mouseSensitivity: 10
   gamepadMode: 0
   gamepadSensitivity: 100
@@ -377,6 +379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   Point: {fileID: 3466219990611738743}
+  HideCurrentItem: 0
+  gui: {fileID: 0}
 --- !u!114 &2564260771812156673
 MonoBehaviour:
   m_ObjectHideFlags: 0

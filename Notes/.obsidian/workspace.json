@@ -14,12 +14,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "About game.md",
+                "file": "Data/Враги.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "About game"
+              "title": "Враги"
             }
           }
         ]
@@ -83,7 +83,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:#Мякиш",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -104,7 +104,8 @@
               "title": "Закладки"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -214,11 +215,11 @@
       "obsidian-kanban:Создать новую доску": false
     }
   },
-  "active": "aa63e0591b8a899f",
+  "active": "93dfdbe46e366568",
   "lastOpenFiles": [
-    "To-Do.md",
-    "About game.md",
     "Data/Враги.md",
+    "About game.md",
+    "To-Do.md",
     "Thinking/Враги 1.md",
     "Data",
     "Без названия.md"

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Sledgehammer : MonoBehaviour,Iusable
+public class Sledgehammer : MonoBehaviour, Iusable
 {
     private Animator Animation;
 
@@ -24,9 +24,15 @@ public class Sledgehammer : MonoBehaviour,Iusable
                     rigidbody.AddForce(direction * 15, ForceMode.Impulse);
                 }
 
-                if(hit.collider.TryGetComponent(out Destroyable destroyable))
+                if(hit.collider.TryGetComponent(out Destroyable destroyable) && destroyable.AvaliableTakingDamage)
                 {
                     destroyable.TakingDamage(1);
+                    return;
+                }
+                
+                if(hit.collider.TryGetComponent(out Entity entity) && hit.collider.tag != "Player")
+                {
+                    entity.TakeDamage(1);
                     return;
                 }
             }

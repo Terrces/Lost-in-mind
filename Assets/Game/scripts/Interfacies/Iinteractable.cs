@@ -1,4 +1,3 @@
-using UnityEngine;
 public enum InteractionObjectTypes {Object, Item}
 
 public interface Iinteractable

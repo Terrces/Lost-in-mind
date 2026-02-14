@@ -337,4 +337,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimateUIObjects
   AnimateAxis: 4
-  speed: 1
+  speed: 35

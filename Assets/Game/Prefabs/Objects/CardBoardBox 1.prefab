@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6768322800916925550}
-  - component: {fileID: 5963388209040097144}
+  - component: {fileID: 3065266878594491823}
   - component: {fileID: 943087331930929343}
   - component: {fileID: 5603439770931129297}
   - component: {fileID: -8888063966701121429}
+  - component: {fileID: 8023985206428843272}
   m_Layer: 0
   m_Name: CardBoardBox 1
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   - {fileID: 8784327608848775437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5963388209040097144
+--- !u!114 &3065266878594491823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,13 +46,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5442934138867116454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c374eae8d32a2e4999b6278db1a2875, type: 3}
+  m_Script: {fileID: 11500000, guid: 9990ce200b854a94bb3e8a229d08fb93, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WoodenBox
+  m_EditorClassIdentifier: Assembly-CSharp::Package
   AvaliableTakingDamage: 1
   Health: 1
   DestroyedModel: {fileID: 0}
-  offset: {x: 0, y: -0.7, z: 0.7}
+  Items: {fileID: 0}
+  repeatCountForDestroyedModel: 1
+  offset: {x: 0, y: -0.6, z: 0.7}
   status: 2
   RoomNumber: 0
   PackagesArea: {fileID: 0}
@@ -115,6 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344f42f7096153641962596cf8032680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropPlayer
+--- !u!114 &8023985206428843272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5442934138867116454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de492f0ee77a6e74fa8e4ca2ea78da32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AliveDeliveryPackage
+  HealthPoints: 5
+  TakingDamageIsAvailable: 1
+  RegenerationIsAvailable: 0
+  WaitTime: 5
 --- !u!1001 &9106993224708988646
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ public class ToggleVisibility : MonoBehaviour
     public GameObject obj;
     public bool ShowOnly = false;
     public bool HideOnly = false;
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.tag != "Player") return;

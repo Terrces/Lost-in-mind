@@ -32,6 +32,16 @@ public class Interaction : MonoBehaviour
         carriedObjectRigidbodyComponent.linearVelocity = delta * pickedUpMoveObjectSpeed;
     }
 
+    public Vector3 GetRaycastHit()
+    {
+        Ray ray = new Ray(player.cameraTransform.position,player.cameraTransform.forward);
+        if (Physics.Raycast(ray, out RaycastHit hit, interactionMask))
+        {
+            return hit.point;
+        }
+        return hit.point;
+    }
+
     public void TryInteract()
     {
 

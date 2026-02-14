@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [SelectionBase]
-public class Player : MonoBehaviour
+public class Player : Entity
 {
     [Header("Characteristics")]
-    public int HeathPoints = 5;
-    public float dropForce = 3f;
+    public float DropForce = 3f;
 
     [Header("Movement Settings")]
     public bool movingAvailable = true;
@@ -56,7 +55,7 @@ public class Player : MonoBehaviour
         HandleMovement();
          // if you need interaction or attack
         if (interactAction.WasPressedThisFrame()) interactionComponent.TryInteract();
-        if (attackAction.WasPressedThisFrame() && interactionComponent.ObjectIsCarried) interactionComponent.DropObject(dropForce);
+        if (attackAction.WasPressedThisFrame() && interactionComponent.ObjectIsCarried) interactionComponent.DropObject(DropForce);
         if (toggleItem.WasPressedThisFrame())
         {
             inventoryComponent.ToggleItem();

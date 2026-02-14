@@ -1,5 +1,4 @@
 using System.Collections;
-using DG.Tweening;
 using UnityEngine;
 
 public class Room : MonoBehaviour
@@ -16,9 +15,9 @@ public class Room : MonoBehaviour
             {
                 package.Delivered();
                 _light.enabled = false;
-                if (PackagePoint != null && package.TryGetComponent(out Rigidbody rb))
+                if (PackagePoint != null && package.TryGetComponent(out Rigidbody rigidbody))
                 {
-                    StartCoroutine(delivered(package, rb));
+                    StartCoroutine(delivered(package));
                 }
                 else
                 {
@@ -28,16 +27,10 @@ public class Room : MonoBehaviour
         }
     }
 
-    IEnumerator delivered(Package package, Rigidbody rb)
+    IEnumerator delivered(Package package)
     {
         FindFirstObjectByType<Interaction>().DropObject();
         package.Interactable = false;
         yield return null;
     }
-
-    void OnTriggerExit(Collider other)
-    {
-        
-    }
-
 }

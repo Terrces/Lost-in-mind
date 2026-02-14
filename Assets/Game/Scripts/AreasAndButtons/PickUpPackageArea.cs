@@ -1,27 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickUpPackageArea : MonoBehaviour, Iinteractable
+public class PickUpPackageArea : Interactable
 {
     public List<GameObject> objects;
     public Stage stage;
     public List<PackagesData> AllPackages;
     public Package CurrentPackage;
+    
+    private Interaction interact;
 
-    public InteractionObjectTypes types {get;set;} = InteractionObjectTypes.Object;
+    void Awake()
+    {
+        Interacted += ObjectInteraction;
+    }
 
-    public void Interact()
+    public void ObjectInteraction()
     {
         if(CurrentPackage || (stage.PackagesDelivered == stage.PackagesNeedForComplite)) return;
+        if(!interact) interact = FindAnyObjectByType<Interaction>();
         
         GameObject _obj;
 
         if(objects.Count == 1)
-            _obj = Instantiate(objects[0],transform.position,Quaternion.Euler(Vector3.zero), FindAnyObjectByType<Stage>().transform); 
+        {
+            _obj = Instantiate(
+                objects[0],
+                interact.GetRaycastHit(),Quaternion.Euler(Vector3.zero),
+                stage.transform);
+        }
         else
-            _obj = Instantiate(objects[Random.Range(0,objects.Count)],transform.position,Quaternion.Euler(Vector3.zero), FindAnyObjectByType<Stage>().transform); 
-
-        Interaction interact = FindAnyObjectByType<Interaction>();
+        {
+            _obj = Instantiate(
+                objects[Random.Range(0,objects.Count)],
+                interact.GetRaycastHit(),Quaternion.Euler(Vector3.zero),
+                stage.transform);
+        }
 
         if(_obj.TryGetComponent(out Package package))
         {
@@ -34,6 +48,7 @@ public class PickUpPackageArea : MonoBehaviour, Iinteractable
 
             CurrentPackage = package;
         }
+
         interact.PickUpPhysicsObjects(_obj.GetComponent<PhysicalObject>());
         gameObject.layer = LayerMask.NameToLayer("Triggers");
     }
@@ -62,6 +77,7 @@ public class PickUpPackageArea : MonoBehaviour, Iinteractable
 
     public void PackageDestroyed()
     {
+        if(CurrentPackage == null) return;
         CurrentPackage.status = PackageStatus.Destroyed;
 
         stage.rooms[CurrentPackage.RoomNumber-1]._light.enabled = false;

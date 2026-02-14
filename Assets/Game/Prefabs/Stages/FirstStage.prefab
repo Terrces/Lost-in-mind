@@ -392,7 +392,7 @@ GameObject:
   - component: {fileID: 2950656554460141056}
   - component: {fileID: 5832174886861530274}
   m_Layer: 0
-  m_Name: PrototypeStage
+  m_Name: FirstStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1122,6 +1122,7 @@ GameObject:
   - component: {fileID: 6418239652796112023}
   - component: {fileID: 2733341775026271428}
   - component: {fileID: 477639355493357457}
+  - component: {fileID: 5460644455562398069}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1464,6 +1465,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!208 &5460644455562398069
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5401448042529481652}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.9690003, y: 2, z: 7.3680005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.44400004, y: 0, z: 0.568}
+  m_TimeToStationary: 0.5
 --- !u!1 &5446850061907007362
 GameObject:
   m_ObjectHideFlags: 0

@@ -520,5 +520,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f106e20c70b91447be3632844ef94ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnimateUIObjects
-  AnimateAxis: 1
-  speed: 0.75
+  AnimateAxis: 4
+  speed: 15

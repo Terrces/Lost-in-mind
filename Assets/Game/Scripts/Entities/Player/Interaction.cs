@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    [SerializeField] private Transform Point;
+    [SerializeField] private Transform point;
     public LayerMask interactionMask;
     public LayerMask PhysicsObjectExclude;
 
@@ -18,7 +18,7 @@ public class Interaction : MonoBehaviour
     {
         if (!carriedObject) return;
 
-        Vector3 target = Point.TransformPoint(carriedObject.offset);
+        Vector3 target = point.TransformPoint(carriedObject.offset);
 
         Vector3 delta = target - carriedObjectRigidbodyComponent.position;
 
@@ -28,7 +28,7 @@ public class Interaction : MonoBehaviour
             return;
         }
 
-        carriedObjectRigidbodyComponent.rotation = Point.rotation * Quaternion.Euler(Vector3.forward);
+        carriedObjectRigidbodyComponent.rotation = point.rotation * Quaternion.Euler(Vector3.forward);
         carriedObjectRigidbodyComponent.linearVelocity = delta * pickedUpMoveObjectSpeed;
     }
 
@@ -41,6 +41,8 @@ public class Interaction : MonoBehaviour
         }
         return hit.point;
     }
+
+    public Vector3 GetPointPosition() => point.position;
 
     public void TryInteract()
     {
@@ -87,7 +89,7 @@ public class Interaction : MonoBehaviour
     public void DropObject(float force = 0f)
     {
         if(!carriedObject) return;
-        Vector3 dir = Point ? Point.forward : Vector3.zero;
+        Vector3 dir = point ? point.forward : Vector3.zero;
 
         ObjectIsCarried = false;
         carriedObjectRigidbodyComponent.AddForce(dir * force, ForceMode.Impulse);

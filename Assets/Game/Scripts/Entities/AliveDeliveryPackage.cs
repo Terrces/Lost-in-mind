@@ -1,29 +1,39 @@
 using System.Collections;
 using UnityEngine;
-
-/// <summary>
-/// Need Refactoring and rewrite to NavMesh
-/// </summary>
+using UnityEngine.AI;
 
 public class AliveDeliveryPackage : Entity
 {
-    public float WaitTime = 5.0f;
-    private Rigidbody rigidBody;
+    public float WaitTime = 15.0f;
+    private NavMeshAgent agent;
     private bool IsAlive = false;
     private Package package;
     private Interaction interaction;
+    private Player player;
+    private NavMeshObstacle navMeshObstacle;
+    private BoxCollider boxCollider;
+    private Collider agentCollider;
+
+    private Vector3 target;
 
     void Start()
     {
         TakingDamageIsAvailable = false;
         interaction = FindFirstObjectByType<Interaction>();
+        boxCollider = GetComponent<BoxCollider>();
+        agentCollider = GetComponent<Collider>();
+        navMeshObstacle = gameObject.AddComponent<NavMeshObstacle>();
+        navMeshObstacle.center = boxCollider.center;
+        navMeshObstacle.size = boxCollider.size;
+        navMeshObstacle.carving = true;
+        navMeshObstacle.carveOnlyStationary = false;
         
-        // if(TryGetComponent(out Package _package))
-        // {
-        //     package = _package;
-        //     StartCoroutine(WaitForSetAlive());
-        // }
-        // package.OnDelivered += StopAllCoroutines;
+        if(TryGetComponent(out Package _package))
+        {
+            package = _package;
+            StartCoroutine(WaitForSetAlive());
+        }
+        package.OnDelivered += StopAllCoroutines;
     }
 
     private IEnumerator WaitForSetAlive()
@@ -31,9 +41,6 @@ public class AliveDeliveryPackage : Entity
         yield return new WaitForSeconds(WaitTime);
 
         interaction.DropObject();
-        package.InvokeDestroy();
-        package.status = PackageStatus.Destroyed;
-        package.Interactable = false;
         SetAlive();
     }
 
@@ -41,36 +48,51 @@ public class AliveDeliveryPackage : Entity
     public void SetAlive()
     {
         if (IsAlive) return;
+        Destroy(GetComponent<Rigidbody>());
+        Destroy(navMeshObstacle);
 
-        if(!TryGetComponent(out Rigidbody rb)) rigidBody = gameObject.AddComponent<Rigidbody>();
-        else rigidBody = rb;
+        if(!TryGetComponent(out NavMeshAgent _agent)) agent = gameObject.AddComponent<NavMeshAgent>();
+        else agent = _agent;
+        agent.baseOffset = 0;
+        agent.height = agentCollider.bounds.size.y/2;
+        agent.radius = Mathf.Max(agentCollider.bounds.size.x, agentCollider.bounds.size.z) / 2f;
+        agent.angularSpeed = 360;
+        // agent.baseOffset = -agent.height;
 
-        rigidBody.freezeRotation = true;
-        rigidBody.MoveRotation(Quaternion.Euler(Vector3.zero));
 
         IsAlive = true;
+        player = FindFirstObjectByType<Player>();
+        package.InvokeDestroy();
     }
-    bool axis;
-    void FixedUpdate()
+
+    private Vector3 GetRandomPointOnNavMesh(float radius)
+    {
+        Vector3 randomDirection = Random.insideUnitSphere * radius;
+        randomDirection += transform.position;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDirection, out hit, radius, NavMesh.AllAreas))
+        {
+            return hit.position;
+        }
+
+        return transform.position;
+    }
+    
+    void Update()
     {
         if(!IsAlive) return;
 
-        Ray ray = new Ray(transform.position,transform.forward);
-
-        if(Physics.SphereCast(ray, transform.localScale.x, out RaycastHit hit, transform.localScale.z + 1f))
+        target = player.gameObject.transform.position;
+        
+        if (Physics.Raycast(transform.position, transform.forward, 2.0f))
         {
-            Quaternion turnRotation;
-            if(axis)
-                turnRotation = Quaternion.Euler(0f, 15f, 0f);
-            else
-                turnRotation = Quaternion.Euler(0f, -15f, 0f);
-                
-            rigidBody.MoveRotation(rigidBody.rotation*turnRotation);
-            return;
+            agent.SetDestination(GetRandomPointOnNavMesh(25f));
         }
 
-        rigidBody.AddForce(transform.forward * 1.5f, ForceMode.Impulse);
-        axis = !axis;
-
+        if (!agent.hasPath)
+        {
+            agent.SetDestination(GetRandomPointOnNavMesh(25f));
+        }
     }
 }

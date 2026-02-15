@@ -163,7 +163,11 @@ PrefabInstance:
       value: WoodenBox
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: -7146521406498821007, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
+    - {fileID: 8416272007918961125, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
+    - {fileID: -516098083770646512, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
+    - {fileID: -8391222552659086748, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
       insertIndex: -1
@@ -178,9 +182,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 748532980419346774}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -7516740267033135149}
   m_SourcePrefab: {fileID: 100100000, guid: c619528a6a6f40e4bbd7513f5e7d217a, type: 3}
 --- !u!4 &7493092924323337678 stripped
 Transform:
@@ -232,7 +233,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2, y: 2, z: 2}
+  m_Size: {x: 2.15, y: 2.15, z: 2.15}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &748532980419346774
 Rigidbody:
@@ -261,19 +262,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &-7516740267033135149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7833731159668903796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de492f0ee77a6e74fa8e4ca2ea78da32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AliveDeliveryPackage
-  HealthPoints: 5
-  TakingDamageIsAvailable: 1
-  RegenerationIsAvailable: 0
-  WaitTime: 5

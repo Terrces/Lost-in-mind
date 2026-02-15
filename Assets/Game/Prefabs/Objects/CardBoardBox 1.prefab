@@ -133,7 +133,7 @@ MonoBehaviour:
   HealthPoints: 5
   TakingDamageIsAvailable: 1
   RegenerationIsAvailable: 0
-  WaitTime: 5
+  WaitTime: 15
 --- !u!1001 &9106993224708988646
 PrefabInstance:
   m_ObjectHideFlags: 0

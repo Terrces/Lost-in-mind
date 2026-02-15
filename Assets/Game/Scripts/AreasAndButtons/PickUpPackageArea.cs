@@ -22,18 +22,20 @@ public class PickUpPackageArea : Interactable
         
         GameObject _obj;
 
+        Vector3 spawnPostition = interact.GetPointPosition();
+
         if(objects.Count == 1)
         {
             _obj = Instantiate(
                 objects[0],
-                interact.GetRaycastHit(),Quaternion.Euler(Vector3.zero),
+                spawnPostition,Quaternion.Euler(Vector3.zero),
                 stage.transform);
         }
         else
         {
             _obj = Instantiate(
                 objects[Random.Range(0,objects.Count)],
-                interact.GetRaycastHit(),Quaternion.Euler(Vector3.zero),
+                spawnPostition,Quaternion.Euler(Vector3.zero),
                 stage.transform);
         }
 

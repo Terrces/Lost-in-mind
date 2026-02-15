@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    // List<GameObject> items = new List<GameObject>();
     public Transform Point;
     private GameObject currentItem;
     public bool HideCurrentItem;
     private int currentItemIdx;
-    private uint emptyItemIndx = 0;
-    private uint emptySecondaryItemIndx = 2;
+    private int currentSlotIndex = 0;
 
     public MainGUI gui;
-    private int toggleCounts;
+
 
     void Start()
     {
@@ -21,25 +19,28 @@ public class Inventory : MonoBehaviour
 
     public void ToggleItem()
     {
-        if(toggleCounts == 1)
+        currentSlotIndex += 1;
+
+        if(currentSlotIndex == InventoryHandler.Items.Count + 1)
         {
-            HideCurrentItem = false;
-            if (!GetComponent<Interaction>().ObjectIsCarried)
-            {
-                RestoreItem();
-            }
+            currentSlotIndex = 0;
         }
-        else if((toggleCounts == emptyItemIndx) || (toggleCounts == emptySecondaryItemIndx))
+        
+        if (currentSlotIndex == 0)
         {
+            Debug.Log("Hide Item");
             HideCurrentItem = true;
             HideItem();
         }
+        else
+        {
+            int itemIndex = currentSlotIndex-1;
+            HideCurrentItem = false;
+            HideItem();
+            GetItem(itemIndex);
+        }
 
-        gui.SetItemIcon(toggleCounts);
-
-        toggleCounts += 1;
-
-        if(toggleCounts > emptySecondaryItemIndx) toggleCounts = 0;
+        gui.SetItemIcon(currentSlotIndex);
     }
 
     public void UseItem()
@@ -99,10 +100,15 @@ public class Inventory : MonoBehaviour
             animator.Play("Hide");
             currentItem = null;
         }
+        else
+        {
+            Destroy(currentItem);
+            currentItem = null;
+        }
     }
 
-    public void Destroy()
-    {
-        Destroy(gameObject);
-    }
+    /// <summary>
+    /// Function for animation player
+    /// </summary>
+    public void Destroy() => Destroy(gameObject);
 }

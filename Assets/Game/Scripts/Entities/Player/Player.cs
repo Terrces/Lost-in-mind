@@ -54,33 +54,15 @@ public class Player : Entity
         HandleCameraRotation();
         HandleMovement();
          // if you need interaction or attack
+        if (toggleItem.WasPressedThisFrame()) inventoryComponent.ToggleItem();
         if (interactAction.WasPressedThisFrame()) interactionComponent.TryInteract();
-        if (attackAction.WasPressedThisFrame() && interactionComponent.ObjectIsCarried) interactionComponent.DropObject(DropForce);
-        if (toggleItem.WasPressedThisFrame())
-        {
-            inventoryComponent.ToggleItem();
-        }
-        if (crouchAction.WasPressedThisFrame())
-        {
-            if(TryGetComponent(out RigidbodyController component) && component.RigidbodyIsActive) return; 
-            if(Physics.SphereCast(new Ray(gameObject.transform.position, gameObject.transform.up), 0.15f, 1f))
-            {
-                if(component) component.SetRigidbodyActive();
-                return;
-            }
-            
-            if (!crouch)
-                characterController.height = Height;
-            else
-                characterController.height = startHeight;
-
-            crouch = !crouch;
-        }
-
+        if (crouchAction.WasPressedThisFrame()) playerCrouch();
         if (attackAction.WasPressedThisFrame())
         {
             ChangeCursoreMode();
             inventoryComponent.UseItem();
+            
+            if(interactionComponent.ObjectIsCarried) interactionComponent.DropObject(DropForce);
         }
     }
 
@@ -110,6 +92,23 @@ public class Player : Entity
     #endregion
 
     #region Player Movement
+
+    private void playerCrouch()
+    {
+        if(TryGetComponent(out RigidbodyController component) && component.RigidbodyIsActive) return; 
+        if(Physics.SphereCast(new Ray(gameObject.transform.position, gameObject.transform.up), 0.15f, 1f))
+        {
+            if(component) component.SetRigidbodyActive();
+            return;
+        }
+        
+        if (!crouch)
+            characterController.height = Height;
+        else
+            characterController.height = startHeight;
+
+        crouch = !crouch;
+    }
 
     private void HandleMovement()
     {

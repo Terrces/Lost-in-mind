@@ -13,12 +13,12 @@ public class PickUpPackageArea : Interactable
     void Awake()
     {
         Interacted += ObjectInteraction;
+        if(!interact) interact = FindAnyObjectByType<Interaction>();
     }
 
     public void ObjectInteraction()
     {
         if(CurrentPackage || (stage.PackagesDelivered == stage.PackagesNeedForComplite)) return;
-        if(!interact) interact = FindAnyObjectByType<Interaction>();
         
         GameObject _obj;
 
@@ -61,6 +61,7 @@ public class PickUpPackageArea : Interactable
 
         stage.PackagesDelivered += 1;
         PackagesData packageData = new PackagesData();
+        packageData.stage = stage.StageNumber;
         packageData.PackageRoomNumber = number;
         packageData.Status = status;
 

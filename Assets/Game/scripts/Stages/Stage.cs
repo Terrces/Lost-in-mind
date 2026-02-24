@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stage : MonoBehaviour
 {
     public List<Room> rooms;
-    
+    public int StageNumber;
     public int PackagesDelivered;
     public int PackagesNeedForComplite;
 

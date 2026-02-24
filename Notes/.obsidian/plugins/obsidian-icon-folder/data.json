@@ -6,6 +6,7 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiAntenna",
       "LiAxe",
       "LiActivity",
       "LiALargeSmall"
@@ -34,5 +35,6 @@
   },
   "About game.md": "LiALargeSmall",
   "To-Do.md": "LiActivity",
-  "Data/Враги.md": "LiAxe"
+  "Data/Враги.md": "LiAxe",
+  "Размышления.md": "LiAntenna"
 }

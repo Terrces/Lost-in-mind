@@ -21,25 +21,28 @@ public class Inventory : MonoBehaviour
     {
         currentSlotIndex += 1;
 
-        if(currentSlotIndex == InventoryHandler.Items.Count + 1)
-        {
-            currentSlotIndex = 0;
-        }
+        if(currentSlotIndex == InventoryHandler.Items.Count + 1) currentSlotIndex = 0;
+        int itemIndex = currentSlotIndex-1;
+
         
+    
+            
         if (currentSlotIndex == 0)
         {
-            Debug.Log("Hide Item");
             HideCurrentItem = true;
             HideItem();
         }
         else
         {
-            int itemIndex = currentSlotIndex-1;
             HideCurrentItem = false;
-            HideItem();
-            GetItem(itemIndex);
+            if (!GetComponent<Interaction>().ObjectIsCarried)
+            {
+                HideItem();
+                GetItem(itemIndex);
+            }
         }
 
+        currentItemIdx = itemIndex;
         gui.SetItemIcon(currentSlotIndex);
     }
 

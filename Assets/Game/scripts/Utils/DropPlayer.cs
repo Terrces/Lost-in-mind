@@ -31,7 +31,7 @@ public class DropPlayer : MonoBehaviour
 
     IEnumerator restore()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(8f);
         enable = true;
     }
 }

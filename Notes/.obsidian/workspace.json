@@ -143,12 +143,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "To-Do.md",
+                "file": "Размышления.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Исходящие ссылки из To-Do"
+              "title": "Исходящие ссылки из Размышления"
             }
           },
           {
@@ -200,7 +200,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -214,10 +215,10 @@
       "obsidian-kanban:Создать новую доску": false
     }
   },
-  "active": "93dfdbe46e366568",
+  "active": "e1e26a1d7444b0d5",
   "lastOpenFiles": [
-    "Размышления.md",
     "To-Do.md",
+    "Размышления.md",
     "About game.md",
     "Data/Враги.md",
     "Thinking/Враги 1.md",

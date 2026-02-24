@@ -9,7 +9,7 @@ public class ChangeStage : Interactable
 
     public List<InspectorStage> Stages;
     public int FirstStage = 0;
-    private int currentStageNumber = 0;
+    public int currentStageNumber {get; private set;}
     public GameObject currentStage {get; private set;}
     public NavMeshSurface navMeshSurface;
 
@@ -35,11 +35,18 @@ public class ChangeStage : Interactable
     private void changeStage(int number)
     {
         if(currentStage) Destroy(currentStage);
+        
         currentStageNumber = number;
         currentStage = Instantiate(Stages[currentStageNumber].Stage);
-        getStage(currentStage).PackagesNeedForComplite = Stages[number].PackagesNeedForComplite;
-        if(pickUpPackageArea) pickUpPackageArea.stage = getStage(currentStage);
-        currentStage.GetComponent<Stage>().navMeshSurface = navMeshSurface;
+        
+        Stage stage = getStage(currentStage);
+        
+        if(pickUpPackageArea) pickUpPackageArea.stage = stage;
+        
+        stage.PackagesNeedForComplite = Stages[number].PackagesNeedForComplite;
+        stage.StageNumber = currentStageNumber;
+
+        stage.navMeshSurface = navMeshSurface;
     }
 
     private Stage getStage(GameObject _gameObject)

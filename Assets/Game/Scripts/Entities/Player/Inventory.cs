@@ -10,23 +10,20 @@ public class Inventory : MonoBehaviour
 
     public MainGUI gui;
 
-
     void Start()
     {
         gui = FindFirstObjectByType<MainGUI>();
-        ToggleItem();
+        GetItem();
     }
 
-    public void ToggleItem()
+    public void GetItem(int value = 0)
     {
-        currentSlotIndex += 1;
+        if(value > InventoryHandler.Items.Count) value = 0;
+        
+        currentSlotIndex = value;
 
-        if(currentSlotIndex == InventoryHandler.Items.Count + 1) currentSlotIndex = 0;
         int itemIndex = currentSlotIndex-1;
 
-        
-    
-            
         if (currentSlotIndex == 0)
         {
             HideCurrentItem = true;
@@ -38,7 +35,7 @@ public class Inventory : MonoBehaviour
             if (!GetComponent<Interaction>().ObjectIsCarried)
             {
                 HideItem();
-                GetItem(itemIndex);
+                SetItem(itemIndex);
             }
         }
 
@@ -46,41 +43,42 @@ public class Inventory : MonoBehaviour
         gui.SetItemIcon(currentSlotIndex);
     }
 
+    public void ToggleItem() => GetItem(currentSlotIndex + 1);
+    
     public void UseItem()
     {
         if (currentItem != null && currentItem.TryGetComponent(out Iusable use)) use.Use();
     }
 
-    public GameObject GetCurrentItem()
-    {
-        if(currentItem == null) return null;
-        return currentItem;
-    }
-
-    public bool CheckAvailable(GameObject _item)
-    {
-        for (int i = 0; i < InventoryHandler.Items.Count; i++)
-        {
-            if (InventoryHandler.Items[i] != _item) continue;
-            else return false;
-        }
-
-        return true;
-    }
-
-    public void AddItem(GameObject _item)
+    public void AddItem(GameObject _item = null, bool autoChoose = true)
     {
         if(!_item) return;
         
-        InventoryHandler.Items.Add(_item);
+        bool addItemAvailable = true;
 
         for (int i = 0; i < InventoryHandler.Items.Count; i++)
         {
-            if (InventoryHandler.Items[i] == _item) GetItem(i);
+            if(InventoryHandler.Items[i] == _item)
+            {
+                addItemAvailable = false;
+            }
+        }
+
+        if(addItemAvailable) InventoryHandler.Items.Add(_item);
+
+        if (autoChoose)
+        {
+            for (int i = 0; i < InventoryHandler.Items.Count; i++)
+            {
+                if (InventoryHandler.Items[i].gameObject.name == _item.gameObject.name)
+                {
+                    GetItem(i+1);
+                }
+            }
         }
     }
 
-    public void GetItem(int value)
+    public void SetItem(int value)
     {
         currentItemIdx = value;
         currentItem = Instantiate(InventoryHandler.Items[value],Point.transform);

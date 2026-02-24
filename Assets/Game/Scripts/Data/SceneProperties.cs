@@ -15,7 +15,7 @@ public class SceneProperties : MonoBehaviour
         {
             foreach (GameObject _obj in startItems)
             {
-                inventory.AddItem(_obj);
+                inventory.AddItem(_obj, false);
             }
         }
     }

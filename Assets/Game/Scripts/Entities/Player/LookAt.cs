@@ -12,7 +12,7 @@ public class LookAt : MonoBehaviour
     {
         if (_obj)
         {
-            player.lookAvailable = false;
+            player.LookAvailable = false;
         }
     }
 
@@ -20,7 +20,7 @@ public class LookAt : MonoBehaviour
     {
         if (_obj == null)
         {
-            player.lookAvailable = true;
+            player.LookAvailable = true;
             return;
         }
 

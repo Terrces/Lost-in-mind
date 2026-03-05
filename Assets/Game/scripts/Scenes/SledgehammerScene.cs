@@ -22,7 +22,7 @@ public class SledgehammerScene : MonoBehaviour, Iinteractable
         startCameraPosition = PlayerCamera.transform.position;
         startCutCameraPosition = cutSceneCamera.transform.position;
         
-        Player.GetComponent<Player>().movingAvailable = false;
+        Player.GetComponent<Player>().MovingAvailable = false;
         Player.SetActive(false);
         cutSceneCamera.SetActive(true);
         cutSceneCamera.transform.position = startCameraPosition;
@@ -51,7 +51,7 @@ public class SledgehammerScene : MonoBehaviour, Iinteractable
         cutSceneCamera.SetActive(false);
         Player.SetActive(true);
 
-        Player.GetComponent<Player>().movingAvailable = true;
+        Player.GetComponent<Player>().MovingAvailable = true;
         Player.GetComponent<Inventory>().AddItem(Item);
 
         Destroy(GetComponent<Collider>());

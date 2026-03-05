@@ -1,3 +1,6 @@
+using System.Collections;
+using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class FlipPhone : MonoBehaviour, Iusable
@@ -7,30 +10,55 @@ public class FlipPhone : MonoBehaviour, Iusable
     public Light screenLight;
     private Animator animator => GetComponent<Animator>();
     private bool animationAvailable = false;
+    [SerializeField] private GameObject canvasContainer;
+    public Vector3 StartCanvasRotation;
+    private Player player;
+    private float offScreenCanvasHideTime = 0.1f;
 
     void Start()
     {
         Canvas.worldCamera = Camera.main;
+        player = FindFirstObjectByType<Player>();
         SetStateScreen(false);
         animationAvailable = true;
+        canvasContainer.transform.Rotate(StartCanvasRotation);
     }
 
+    private IEnumerator offScreen()
+    {
+        yield return new WaitForSeconds(offScreenCanvasHideTime);
+        ScreenCanvas.enabled = false;
+    }
+
+    private bool isOpen;
     private void SetScreenAnimation(bool isEnable)
     {
-        if (isEnable && animationAvailable)
+        if (isOpen != isEnable)
         {
-            animator.Play("Open");
-        }
-        else if(animationAvailable)
-        {
-            animator.Play("Close");
+            isOpen = isEnable;
+            
+            if (isEnable && animationAvailable)
+            {
+                animator.Play("Open");
+                ScreenCanvas.enabled = true;
+                canvasContainer.transform.DORotate(new Vector3(0,0,0),0.15f);
+                player.PlayerWalk = true;
+                player.SecondarySensitivity = true;
+            }
+            else if(animationAvailable)
+            {
+                animator.Play("Close");
+                canvasContainer.transform.DORotate(StartCanvasRotation, offScreenCanvasHideTime);
+                StartCoroutine(offScreen());
+                player.PlayerWalk = false;
+                player.SecondarySensitivity = false;
+            }
         }
     }
 
     private void SetStateScreen(bool isEnable)
     {
         Canvas.enabled = isEnable;
-        ScreenCanvas.enabled = isEnable;
         screenLight.enabled = isEnable;
     }
 
@@ -39,15 +67,16 @@ public class FlipPhone : MonoBehaviour, Iusable
     {
         animationAvailable = false;
         SetStateScreen(false);
+        canvasContainer.transform.DORotate(StartCanvasRotation, offScreenCanvasHideTime);
+        StartCoroutine(offScreen());
         Cursor.lockState = CursorLockMode.Locked;
-
+        player.SecondarySensitivity = false;
     }
 
     public void Use()
     {
         SetScreenAnimation(true);
         Cursor.lockState = CursorLockMode.None;
-
     }
 
     [ContextMenu("off phone screen")]
@@ -57,8 +86,9 @@ public class FlipPhone : MonoBehaviour, Iusable
     public void Close()
     {
         SetScreenAnimation(false);
-        OffScreen();
+        SetStateScreen(false);
         Cursor.lockState = CursorLockMode.Locked;
+        player.SecondarySensitivity = false;
     }
 
     public void Destroy()

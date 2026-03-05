@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1032119229308860784}
   - component: {fileID: 2205165233494694469}
   - component: {fileID: 8055277703486420133}
-  - component: {fileID: 995585653296517104}
   m_Layer: 0
   m_Name: CardBoardBox
   m_TagString: Untagged
@@ -105,22 +104,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 0.8, z: 0.8}
   m_Center: {x: 0, y: 0.4, z: 0}
---- !u!114 &995585653296517104
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5442934138867116454}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de492f0ee77a6e74fa8e4ca2ea78da32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AliveDeliveryPackage
-  HealthPoints: 5
-  TakingDamageIsAvailable: 1
-  RegenerationIsAvailable: 0
-  WaitTime: 15
 --- !u!1001 &4249784444289219081
 PrefabInstance:
   m_ObjectHideFlags: 0

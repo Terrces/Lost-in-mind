@@ -23,7 +23,7 @@ public class RigidbodyController : MonoBehaviour
         
         RigidbodyIsActive = true;
         controller.enabled = false;
-        player.movingAvailable = false;
+        player.MovingAvailable = false;
         
         player.cameraTransform.DOLocalMove(Vector3.zero, 0.2f);
 
@@ -44,7 +44,7 @@ public class RigidbodyController : MonoBehaviour
     {
         RigidbodyIsActive = false;
         controller.enabled = true;
-        player.movingAvailable = true;
+        player.MovingAvailable = true;
 
         player.cameraTransform.DOLocalMove(cameraStartPosition, 0.2f);
         player.transform.DORotate(new Vector3(0,transform.rotation.eulerAngles.y,0),0.1f);

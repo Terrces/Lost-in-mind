@@ -8,15 +8,19 @@ public class Player : Entity
     public float DropForce = 3f;
 
     [Header("Movement Settings")]
-    public bool movingAvailable = true;
-    public bool lookAvailable = true;
-    public bool crouch = false;
+    public bool MovingAvailable = true;
+    public bool LookAvailable = true;
+    public bool Crouch = false;
+    public bool PlayerWalk = false;
     [SerializeField] private float crouchSpeed = 3.5f;
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float runSpeed = 8.0f;
     [SerializeField] private float jumpForce = 2.0f;
 
     [Header("Camera Settings")]
+    public bool SecondarySensitivity = false;
+    public float SecondarySensitivityMultiplier = 2;
+    
     // mouse properties
     [SerializeField] private float mouseSensitivity = 25.0f;
 
@@ -102,17 +106,17 @@ public class Player : Entity
             return;
         }
         
-        if (!crouch)
+        if (!Crouch)
             characterController.height = Height;
         else
             characterController.height = startHeight;
 
-        crouch = !crouch;
+        Crouch = !Crouch;
     }
 
     private void HandleMovement()
     {
-        if(!movingAvailable) return;
+        if(!MovingAvailable) return;
         
         Vector3 move = transform.right * moveAction.ReadValue<Vector2>().x + transform.forward * moveAction.ReadValue<Vector2>().y;
 
@@ -130,10 +134,10 @@ public class Player : Entity
 
         Vector3 motion;
 
-        if (crouch)
+        if (Crouch)
             motion = move.normalized * crouchSpeed;
             
-        else if(GetComponent<Interaction>().ObjectIsCarried == true)
+        else if(GetComponent<Interaction>().ObjectIsCarried == true || PlayerWalk)
             motion = move.normalized * moveSpeed;
 
         else
@@ -155,17 +159,22 @@ public class Player : Entity
 
     private void HandleCameraRotation()
     {
-        if(Cursor.lockState != CursorLockMode.Locked || !lookAvailable) return;
-        Vector2 look = lookAction.ReadValue<Vector2>();
-
-        if (gamepadMode) HandleGamepadCamera(look);
-        else HandleMouseCamera(look);
+        if (Cursor.lockState == CursorLockMode.Locked || LookAvailable || SecondarySensitivity)
+        {
+            Vector2 look = lookAction.ReadValue<Vector2>();
+            
+            if (gamepadMode) HandleGamepadCamera(look);
+            else HandleMouseCamera(look);
+        }
     }
 
     private void HandleMouseCamera(Vector2 look)
     {
-        float mouseX = look.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = look.y * mouseSensitivity * Time.deltaTime;
+        float _mouseSensitivity = mouseSensitivity;
+        if (SecondarySensitivity) _mouseSensitivity = mouseSensitivity / SecondarySensitivityMultiplier;
+
+        float mouseX = look.x * _mouseSensitivity * Time.deltaTime;
+        float mouseY = look.y * _mouseSensitivity * Time.deltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -180,8 +189,11 @@ public class Player : Entity
 
         if (look.sqrMagnitude < gamepadDeadZone) return;
 
-        float stickX = look.x * gamepadSensitivity * Time.deltaTime;
-        float stickY = look.y * gamepadSensitivity * Time.deltaTime;
+        float _gamepadSensitivity = gamepadSensitivity;
+        if (SecondarySensitivity) _gamepadSensitivity = gamepadSensitivity / SecondarySensitivityMultiplier;
+
+        float stickX = look.x * _gamepadSensitivity * Time.deltaTime;
+        float stickY = look.y * _gamepadSensitivity * Time.deltaTime;
 
         xRotation -= stickY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);

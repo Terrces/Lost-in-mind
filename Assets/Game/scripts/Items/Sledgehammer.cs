@@ -3,10 +3,18 @@ using UnityEngine;
 public class Sledgehammer : MonoBehaviour, Iusable
 {
     private Animator Animation;
+    private Player player;
 
     private bool IsAttacked;
 
     [SerializeField] private float maxDistance = 1.5f;
+
+    void Awake()
+    {
+
+        if (TryGetComponent(out Animator animator)) Animation = animator;
+        player = FindFirstObjectByType<Player>();
+    }
 
     public void Attack()
     {
@@ -41,13 +49,10 @@ public class Sledgehammer : MonoBehaviour, Iusable
 
     public void Use()
     {
-        if (IsAttacked) return;
-        if (TryGetComponent(out Animator attackAnimation))
-        {
-            Animation = attackAnimation;
-            Animation.Play("Attack");
-            IsAttacked = false;
-        }
+        if(player != null) player.PlayerWalk = true;
+        if (IsAttacked || Animation == null) return;
+        Animation.Play("Attack");
+        IsAttacked = false;
     }
 
     public void Destroy()
@@ -58,5 +63,6 @@ public class Sledgehammer : MonoBehaviour, Iusable
     public void AttackEnd()
     {
         IsAttacked = false;
+        if(player != null) player.PlayerWalk = false;
     }
 }

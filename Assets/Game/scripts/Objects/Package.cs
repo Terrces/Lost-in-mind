@@ -5,6 +5,9 @@ using UnityEngine;
 public class Package : PhysicalObject
 {
     public PackageStatus status = PackageStatus.Delivering;
+    public SceneProperties sceneProperties;
+    public string TimeForDelivery;
+    public string TimeOfCollected;
     public event Action OnDelivered;
 
     public int RoomNumber = 0;
@@ -22,5 +25,19 @@ public class Package : PhysicalObject
     {
         OnDelivered?.Invoke();
         ToggleTakingDamage();
+    }
+
+    private void Attack()
+    {
+        
+    }
+
+    void OnGUI()
+    {
+        if (sceneProperties.SceneTime == null) return;
+        TimeForDelivery = sceneProperties.SceneTime.GetHMTime();
+        {
+            Attack();
+        }
     }
 }

@@ -9,11 +9,14 @@ public class PickUpPackageArea : Interactable
     public Package CurrentPackage;
     
     private Interaction interact;
+    private SceneProperties sceneProperties;
+    public int[] randMinutes = new int[2] {25, 35};
 
     void Awake()
     {
         Interacted += ObjectInteraction;
         if(!interact) interact = FindAnyObjectByType<Interaction>();
+        sceneProperties = FindFirstObjectByType<SceneProperties>();
     }
 
     public void ObjectInteraction()
@@ -41,6 +44,20 @@ public class PickUpPackageArea : Interactable
 
         if(_obj.TryGetComponent(out Package package))
         {
+            package.sceneProperties = sceneProperties;
+            
+            LocalTime time = new LocalTime();
+            time.Hours = sceneProperties.SceneTime.Hours;
+            time.Minutes = sceneProperties.SceneTime.Minutes;
+            time.Seconds = sceneProperties.SceneTime.Seconds;
+
+            time.Minutes = Random.Range(randMinutes[0], randMinutes[1]) + sceneProperties.SceneTime.Minutes;
+            
+            package.TimeForDelivery = $"{time.GetHMTime()}";
+            package.TimeOfCollected = sceneProperties.SceneTime.GetHMTime();
+
+            Debug.Log(package.TimeForDelivery);
+            
             package.RoomNumber = Random.Range(1,stage.maxRoomNumber+1);
             package.PackagesArea = this;
             stage.rooms[package.RoomNumber-1]._light.enabled = true;
@@ -61,6 +78,7 @@ public class PickUpPackageArea : Interactable
 
         stage.PackagesDelivered += 1;
         PackagesData packageData = new PackagesData();
+        packageData.Time = CurrentPackage.TimeOfCollected;
         packageData.stage = stage.StageNumber;
         packageData.PackageRoomNumber = number;
         packageData.Status = status;

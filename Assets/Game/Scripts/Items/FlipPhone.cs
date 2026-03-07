@@ -5,18 +5,23 @@ using UnityEngine;
 
 public class FlipPhone : MonoBehaviour, Iusable
 {
-    public Canvas Canvas;
-    public Canvas ScreenCanvas;
-    public Light screenLight;
-    private Animator animator => GetComponent<Animator>();
-    private bool animationAvailable = false;
+    private const float OPEN_ANIMATION_DURATION = 0.15f;
+    private const float CLOSE_ANIMATION_DURATION = 0.1f;
+
+    [SerializeField] public Canvas Canvas;
+    [SerializeField] public Canvas ScreenCanvas;
+    [SerializeField] public Light screenLight;
     [SerializeField] private GameObject canvasContainer;
-    public Vector3 StartCanvasRotation;
+    [SerializeField] public Vector3 StartCanvasRotation;
+
+    private Animator animator;
     private Player player;
-    private float offScreenCanvasHideTime = 0.1f;
+    private bool animationAvailable = false;
+    private bool isOpen = false;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         Canvas.worldCamera = Camera.main;
         player = FindFirstObjectByType<Player>();
         SetStateScreen(false);
@@ -24,53 +29,59 @@ public class FlipPhone : MonoBehaviour, Iusable
         canvasContainer.transform.Rotate(StartCanvasRotation);
     }
 
-    private IEnumerator offScreen()
+    private IEnumerator HideScreenDelayed()
     {
-        yield return new WaitForSeconds(offScreenCanvasHideTime);
+        yield return new WaitForSeconds(CLOSE_ANIMATION_DURATION);
         ScreenCanvas.enabled = false;
     }
 
-    private bool isOpen;
+    private void SetPlayerState(bool allowMovement)
+    {
+        if (player != null)
+        {
+            player.PlayerWalk = allowMovement;
+            player.SecondarySensitivity = allowMovement;
+        }
+    }
+
     private void SetScreenAnimation(bool isEnable)
     {
-        if (isOpen != isEnable)
+        if (isOpen == isEnable || !animationAvailable)
+            return;
+
+        isOpen = isEnable;
+        
+        if (isEnable)
         {
-            isOpen = isEnable;
-            
-            if (isEnable && animationAvailable)
-            {
-                animator.Play("Open");
-                ScreenCanvas.enabled = true;
-                canvasContainer.transform.DORotate(new Vector3(0,0,0),0.15f);
-                player.PlayerWalk = true;
-                player.SecondarySensitivity = true;
-            }
-            else if(animationAvailable)
-            {
-                animator.Play("Close");
-                canvasContainer.transform.DORotate(StartCanvasRotation, offScreenCanvasHideTime);
-                StartCoroutine(offScreen());
-                player.PlayerWalk = false;
-                player.SecondarySensitivity = false;
-            }
+            animator.Play("Open");
+            ScreenCanvas.enabled = true;
+            canvasContainer.transform.DORotate(Vector3.zero, OPEN_ANIMATION_DURATION);
+            SetPlayerState(true);
+        }
+        else
+        {
+            animator.Play("Close");
+            canvasContainer.transform.DORotate(StartCanvasRotation, CLOSE_ANIMATION_DURATION);
+            StartCoroutine(HideScreenDelayed());
+            SetPlayerState(false);
         }
     }
 
     private void SetStateScreen(bool isEnable)
     {
         Canvas.enabled = isEnable;
-        screenLight.enabled = isEnable;
+        if (screenLight != null)
+            screenLight.enabled = isEnable;
     }
-
 
     public void Hide()
     {
         animationAvailable = false;
         SetStateScreen(false);
-        canvasContainer.transform.DORotate(StartCanvasRotation, offScreenCanvasHideTime);
-        StartCoroutine(offScreen());
+        canvasContainer.transform.DORotate(StartCanvasRotation, CLOSE_ANIMATION_DURATION);
+        StartCoroutine(HideScreenDelayed());
         Cursor.lockState = CursorLockMode.Locked;
-        player.SecondarySensitivity = false;
+        SetPlayerState(false);
     }
 
     public void Use()
@@ -81,6 +92,7 @@ public class FlipPhone : MonoBehaviour, Iusable
 
     [ContextMenu("off phone screen")]
     public void OffScreen() => SetStateScreen(false);
+    
     public void OnScreen() => SetStateScreen(true);
 
     public void Close()
@@ -88,7 +100,7 @@ public class FlipPhone : MonoBehaviour, Iusable
         SetScreenAnimation(false);
         SetStateScreen(false);
         Cursor.lockState = CursorLockMode.Locked;
-        player.SecondarySensitivity = false;
+        SetPlayerState(false);
     }
 
     public void Destroy()

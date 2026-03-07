@@ -2,6 +2,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+public static class PhoneMenuStatus
+{
+    public enum PhoneStates {MENU,TASKS,PAUSE}
+    public static PhoneStates PhoneState; 
+}
+
 public class PhoneMenu : MonoBehaviour
 {
     [SerializeField] private string packagesText;
@@ -18,7 +24,7 @@ public class PhoneMenu : MonoBehaviour
     private List<PackagesData> currentStagePackages = new List<PackagesData>();
 
     private SceneProperties sceneProperties;
-
+    public GameObject[] menus;
 
     void Awake()
     {
@@ -45,8 +51,8 @@ public class PhoneMenu : MonoBehaviour
         }
     }
 
-    void Update()
+    void OnGUI()
     {
-        timeText.text = $"{sceneProperties.SceneTime.GetTimeInText()} am";
+        timeText.text = $"{sceneProperties.SceneTime.GetHMTime()} am";
     }
 }

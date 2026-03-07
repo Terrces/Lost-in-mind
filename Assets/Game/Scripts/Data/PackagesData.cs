@@ -8,4 +8,5 @@ public class PackagesData
     public int stage;
     public int PackageRoomNumber;
     public PackageStatus Status;
+    public string Time;
 }

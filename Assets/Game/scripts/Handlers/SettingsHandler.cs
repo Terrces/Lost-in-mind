@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SettingsHandler : MonoBehaviour
+public class SettingsHandler
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

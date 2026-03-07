@@ -45,7 +45,8 @@ public class LocalTime
     public string GetHourseForText() => GetTimeForText(_hours);
     public string GetMinutesForText() => GetTimeForText(_minutes);
     public string GetSecondsForText() => GetTimeForText(_seconds);
-    public string GetTimeInText() => $"{GetHourseForText()}:{GetMinutesForText()}:{GetSecondsForText()}";
+    public string GetFullTime() => $"{GetHourseForText()}:{GetMinutesForText()}:{GetSecondsForText()}";
+    public string GetHMTime() => $"{GetHourseForText()}:{GetMinutesForText()}";
 }
 
 public class SceneProperties : MonoBehaviour
@@ -64,7 +65,7 @@ public class SceneProperties : MonoBehaviour
         SceneTime.Minutes = UnityEngine.Random.Range(0,60);
         SceneTime.Seconds = UnityEngine.Random.Range(0,60);
 
-        Debug.Log(SceneTime.GetTimeInText());
+        Debug.Log(SceneTime.GetFullTime());
         StartCoroutine(SceneTime.StartCustomTime(0.1f));
 
         

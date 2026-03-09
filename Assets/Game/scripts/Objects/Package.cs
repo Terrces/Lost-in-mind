@@ -35,7 +35,7 @@ public class Package : PhysicalObject
     void OnGUI()
     {
         if (sceneProperties.SceneTime == null) return;
-        TimeForDelivery = sceneProperties.SceneTime.GetHMTime();
+        if (TimeForDelivery == sceneProperties.SceneTime.GetHMTime())
         {
             Attack();
         }

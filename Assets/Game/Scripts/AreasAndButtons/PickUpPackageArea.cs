@@ -56,8 +56,6 @@ public class PickUpPackageArea : Interactable
             package.TimeForDelivery = $"{time.GetHMTime()}";
             package.TimeOfCollected = sceneProperties.SceneTime.GetHMTime();
 
-            Debug.Log(package.TimeForDelivery);
-            
             package.RoomNumber = Random.Range(1,stage.maxRoomNumber+1);
             package.PackagesArea = this;
             stage.rooms[package.RoomNumber-1]._light.enabled = true;

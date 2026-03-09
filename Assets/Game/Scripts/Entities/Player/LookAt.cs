@@ -24,6 +24,7 @@ public class LookAt : MonoBehaviour
             return;
         }
 
+        player.LookAvailable = false;
 
         Vector3 cameraPos = player.cameraTransform.position;
         Vector3 dirToTarget = (_obj.transform.position - cameraPos).normalized;

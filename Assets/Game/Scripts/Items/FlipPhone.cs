@@ -27,6 +27,7 @@ public class FlipPhone : MonoBehaviour, Iusable
         SetStateScreen(false);
         animationAvailable = true;
         canvasContainer.transform.Rotate(StartCanvasRotation);
+        canvasContainer.SetActive(false);
     }
 
     private IEnumerator HideScreenDelayed()
@@ -55,6 +56,7 @@ public class FlipPhone : MonoBehaviour, Iusable
         {
             animator.Play("Open");
             ScreenCanvas.enabled = true;
+            canvasContainer.SetActive(true);
             canvasContainer.transform.DORotate(Vector3.zero, OPEN_ANIMATION_DURATION);
             SetPlayerState(true);
         }

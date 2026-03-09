@@ -159,7 +159,8 @@ public class Player : Entity
 
     private void HandleCameraRotation()
     {
-        if (Cursor.lockState == CursorLockMode.Locked || LookAvailable || SecondarySensitivity)
+        if(!LookAvailable) return;
+        if (Cursor.lockState == CursorLockMode.Locked)
         {
             Vector2 look = lookAction.ReadValue<Vector2>();
             

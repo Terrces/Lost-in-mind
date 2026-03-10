@@ -6,10 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiAxis3d",
+      "LiArmchair",
+      "LiBadge",
       "LiAntenna",
-      "LiAxe",
-      "LiActivity",
-      "LiALargeSmall"
+      "LiAxe"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -34,7 +35,8 @@
     "useInternalPlugins": false
   },
   "About game.md": "LiALargeSmall",
-  "To-Do.md": "LiActivity",
-  "Data/Враги.md": "LiAxe",
-  "Размышления.md": "LiAntenna"
+  "Размышления.md": "LiAntenna",
+  "ReadMe.md": "LiBadge",
+  "Script.md": "LiArmchair",
+  "TODO.md": "LiAxis3d"
 }

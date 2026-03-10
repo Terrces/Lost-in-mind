@@ -50,8 +50,7 @@ public class PickUpPackageArea : Interactable
             time.Hours = sceneProperties.SceneTime.Hours;
             time.Minutes = sceneProperties.SceneTime.Minutes;
             time.Seconds = sceneProperties.SceneTime.Seconds;
-
-            time.Minutes = Random.Range(randMinutes[0], randMinutes[1]) + sceneProperties.SceneTime.Minutes;
+            time.Minutes = sceneProperties.SceneTime.Minutes + Random.Range(randMinutes[0], randMinutes[1]);
             
             package.TimeForDelivery = $"{time.GetHMTime()}";
             package.TimeOfCollected = sceneProperties.SceneTime.GetHMTime();

@@ -11,22 +11,14 @@
             "id": "e1e26a1d7444b0d5",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "To-Do.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "TODO.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "To-Do"
+              "icon": "lucide-file",
+              "title": "TODO"
             }
           }
         ]
@@ -195,8 +187,11 @@
   },
   "active": "e1e26a1d7444b0d5",
   "lastOpenFiles": [
-    "Размышления.md",
+    "Script.md",
+    "ReadMe.md",
     "About game.md",
+    "TODO.md",
+    "Размышления.md",
     "To-Do.md",
     "Data/Враги.md",
     "Thinking/Враги 1.md",

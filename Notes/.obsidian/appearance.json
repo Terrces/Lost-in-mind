@@ -1,6 +1,7 @@
 {
   "interfaceFontFamily": "",
-  "cssTheme": "Things",
-  "accentColor": "#5e4ce6",
-  "theme": "system"
+  "cssTheme": "Obsidianotion",
+  "accentColor": "#474747",
+  "theme": "system",
+  "baseFontSize": 18
 }

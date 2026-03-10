@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +19,10 @@ public class LocalTime
         {
             yield return new WaitForSeconds(TimeUpdate);
             Seconds += 1;
-            // Debug.Log(GetTime());
         }
     }
 
-    private bool updateNext(int value, int secondValue) => value == secondValue;
+    private bool updateNext(int value, int secondValue) => value >= secondValue;
     private int timeUpdate(int value, int secondValue = 60)
     {
         var _value = value;
@@ -61,9 +59,9 @@ public class SceneProperties : MonoBehaviour
 
     void Start()
     {
-        SceneTime.Hours = UnityEngine.Random.Range(0,12);
-        SceneTime.Minutes = UnityEngine.Random.Range(0,60);
-        SceneTime.Seconds = UnityEngine.Random.Range(0,60);
+        SceneTime.Hours = Random.Range(0,12);
+        SceneTime.Minutes = Random.Range(0,60);
+        SceneTime.Seconds = Random.Range(0,60);
 
         Debug.Log(SceneTime.GetFullTime());
         StartCoroutine(SceneTime.StartCustomTime(0.1f));

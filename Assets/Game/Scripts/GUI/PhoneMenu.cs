@@ -37,17 +37,6 @@ public class PhoneMenu : MonoBehaviour
         changeStage = FindFirstObjectByType<ChangeStage>();
         sceneProperties = FindFirstObjectByType<SceneProperties>();
 
-        if(pickUpPackage.CurrentPackage != null)
-        {            
-            currentPackageCard.RoomNumberText.text = $"Room: {pickUpPackage.CurrentPackage.RoomNumber}";
-            currentPackageCard.TimeForDeliveryText.text = $"Time for delivery: {pickUpPackage.CurrentPackage.TimeForDelivery}";
-        }
-        else
-        {
-            currentPackageCard.RoomNumberText.text = $"";
-            currentPackageCard.TimeForDeliveryText.text = $"";
-        }
-
         foreach (PackagesData packagesData in pickUpPackage.AllPackages)
         {
             if(packagesData.stage == changeStage.currentStageNumber)
@@ -77,6 +66,18 @@ public class PhoneMenu : MonoBehaviour
     {
         timeText.text = $"{sceneProperties.SceneTime.GetHMTime()} am";
         packagesGameObjectText.text = $"{packagesText}{GetFullPackagesCount()}/{GetDeliveredPackagesOnThisPage()}";
+
+        if(pickUpPackage.CurrentPackage != null)
+        {            
+            currentPackageCard.RoomNumberText.text = $"Room: {pickUpPackage.CurrentPackage.RoomNumber}";
+            Debug.Log(pickUpPackage.CurrentPackage.TimeForDelivery);
+            currentPackageCard.TimeForDeliveryText.text = $"Time for delivery: {pickUpPackage.CurrentPackage.TimeForDelivery}";
+        }
+        else
+        {
+            currentPackageCard.RoomNumberText.text = $"";
+            currentPackageCard.TimeForDeliveryText.text = $"";
+        }
     }
 
     public void OpenNewMenu(int MenuIndex)

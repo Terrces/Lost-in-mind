@@ -34,6 +34,7 @@ public class PhoneMenu : MonoBehaviour
     [SerializeField] private GameObject containerForDeliveredPackageCards;
     [SerializeField] private GameObject deliveredPackageCardPrefab;
     private GameObject currentMenu;
+    private List<GameObject> packageCards = new List<GameObject>();
 
     void Awake()
     {
@@ -41,15 +42,18 @@ public class PhoneMenu : MonoBehaviour
         changeStage = FindFirstObjectByType<ChangeStage>();
         sceneProperties = FindFirstObjectByType<SceneProperties>();
 
+        //Adding Delivered packages in current stage
         foreach (PackagesData packagesData in pickUpPackage.AllPackages)
         {
             if(packagesData.stage == changeStage.currentStageNumber) currentStagePackages.Add(packagesData);
         }
 
+        //Set start menu
         for (int i = 0; i < menus.Length; i++)
         {
             if(i == PhoneMenuStatus.MenuID)
             {
+                MenuButtonToggle(i);
                 currentMenu = menus[PhoneMenuStatus.MenuID];
                 menus[i].SetActive(true);
                 continue;
@@ -58,14 +62,31 @@ public class PhoneMenu : MonoBehaviour
             menus[i].SetActive(false);
         }
 
+        //Checking all packages delivered?
         if (GetFullPackagesCount() == GetDeliveredPackagesOnThisPage()) allPackagesDelivered = true;
+
+        deliveredPackagesUpdate();
+    }
+
+    void deliveredPackagesUpdate()
+    {
+        if(packageCards.Count != 0)
+        {
+            for (int i = 0; i < packageCards.Count; i++)
+            {
+                Destroy(packageCards[i]);
+            }
+
+            packageCards.Clear();
+        }
 
         for (int i = 0; i < currentStagePackages.Count; i++)
         {
             GameObject container = Instantiate(deliveredPackageCardPrefab,Vector3.zero,quaternion.Euler(Vector3.zero),containerForDeliveredPackageCards.transform);
+            packageCards.Add(container);
             GUIPackageCard packageCard = container.GetComponent<GUIPackageCard>();
-            packageCard.RoomNumberText.text = $"{apartmentText}{currentStagePackages[i]}";
-            packageCard.TimeForDeliveryText.text = $"{timeForDeliveryText}{currentStagePackages[i]}";
+            packageCard.RoomNumberText.text = $"{apartmentText}{currentStagePackages[i].PackageRoomNumber}";
+            packageCard.TimeForDeliveryText.text = $"{timeForDeliveryText}{currentStagePackages[i].Time}";
         }
     }
 
@@ -81,9 +102,15 @@ public class PhoneMenu : MonoBehaviour
         }
         else
         {
-            currentPackageCard.RoomNumberText.text = $"";
-            currentPackageCard.TimeForDeliveryText.text = $"";
+            currentPackageCard.RoomNumberText.text = $"Pick up the package";
+            currentPackageCard.TimeForDeliveryText.text = $"[Pick up the package]";
         }
+    }
+
+    private void MenuButtonToggle(int MenuIndex)
+    {
+        if(MenuIndex == 0) menuButton.interactable = false;
+        else menuButton.interactable = true;
     }
 
     public void OpenMenu(int MenuIndex)
@@ -92,8 +119,7 @@ public class PhoneMenu : MonoBehaviour
 
         if(currentMenu != null) currentMenu.SetActive(false);
 
-        if(MenuIndex == 0) menuButton.interactable = false;
-        else menuButton.interactable = true;
+        MenuButtonToggle(MenuIndex);
         
         currentMenu = menus[MenuIndex];
         PhoneMenuStatus.MenuID = MenuIndex;

@@ -4,17 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "f8b18e5e48466dfe",
+        "id": "5e2c007df9d3f072",
         "type": "tabs",
         "children": [
           {
-            "id": "e1e26a1d7444b0d5",
+            "id": "73f5c17f5d08da8d",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
                 "file": "TODO.md",
-                "mode": "source",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
@@ -185,13 +185,13 @@
       "obsidian-kanban:Создать новую доску": false
     }
   },
-  "active": "e1e26a1d7444b0d5",
+  "active": "73f5c17f5d08da8d",
   "lastOpenFiles": [
-    "Размышления.md",
-    "TODO.md",
-    "ReadMe.md",
     "Сюжет.md",
+    "TODO.md",
+    "Мысли.md",
     "About game.md",
+    "ReadMe.md",
     "To-Do.md",
     "Data/Враги.md",
     "Thinking/Враги 1.md",

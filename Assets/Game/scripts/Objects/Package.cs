@@ -32,7 +32,7 @@ public class Package : PhysicalObject
         
     }
 
-    void OnGUI()
+    void LateUpdate()
     {
         if (sceneProperties.SceneTime == null) return;
         if (TimeForDelivery == sceneProperties.SceneTime.GetHMTime())

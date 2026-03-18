@@ -10,13 +10,25 @@ public class PickUpPackageArea : Interactable
     
     private Interaction interact;
     private SceneProperties sceneProperties;
+    public GameObject AreaGameObject;
     public int[] randMinutes = new int[2] {25, 35};
+    int packageModelNumber = 0;
+
 
     void Awake()
     {
         Interacted += ObjectInteraction;
         if(!interact) interact = FindAnyObjectByType<Interaction>();
         sceneProperties = FindFirstObjectByType<SceneProperties>();
+        newRandomNumber();
+    }
+
+    void newRandomNumber()
+    {
+        if(objects.Count > 1)
+        {
+            packageModelNumber = Random.Range(0,objects.Count);
+        }
     }
 
     public void ObjectInteraction()
@@ -27,20 +39,10 @@ public class PickUpPackageArea : Interactable
 
         Vector3 spawnPostition = interact.GetPointPosition();
 
-        if(objects.Count == 1)
-        {
-            _obj = Instantiate(
-                objects[0],
-                spawnPostition,Quaternion.Euler(Vector3.zero),
-                stage.transform);
-        }
-        else
-        {
-            _obj = Instantiate(
-                objects[Random.Range(0,objects.Count)],
-                spawnPostition,Quaternion.Euler(Vector3.zero),
-                stage.transform);
-        }
+        _obj = Instantiate(
+            objects[packageModelNumber],
+            spawnPostition,Quaternion.Euler(Vector3.zero),
+            stage.transform);
 
         if(_obj.TryGetComponent(out Package package))
         {
@@ -66,12 +68,13 @@ public class PickUpPackageArea : Interactable
         }
 
         interact.PickUpPhysicsObjects(_obj.GetComponent<PhysicalObject>());
-        gameObject.layer = LayerMask.NameToLayer("Triggers");
+        AreaGameObject.gameObject.layer = LayerMask.NameToLayer("Triggers");
     }
 
     public void AddPackageData(int number, PackageStatus status)
     {
-        gameObject.layer = LayerMask.NameToLayer("Default");
+        AreaGameObject.gameObject.layer = LayerMask.NameToLayer("Default");
+        newRandomNumber();
 
         stage.PackagesDelivered += 1;
         PackagesData packageData = new PackagesData();

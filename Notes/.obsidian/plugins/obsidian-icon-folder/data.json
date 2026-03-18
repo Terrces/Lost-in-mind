@@ -35,8 +35,8 @@
     "useInternalPlugins": false
   },
   "About game.md": "LiALargeSmall",
-  "Размышления.md": "LiAntenna",
   "ReadMe.md": "LiBadge",
   "TODO.md": "LiAxis3d",
-  "Сюжет.md": "LiArmchair"
+  "Сюжет.md": "LiArmchair",
+  "Мысли.md": "LiAntenna"
 }

@@ -2189,6 +2189,7 @@ MonoBehaviour:
   stage: {fileID: 0}
   AllPackages: []
   CurrentPackage: {fileID: 0}
+  AreaGameObject: {fileID: 1578220269}
   randMinutes: 1900000023000000
 --- !u!4 &920203891
 Transform:
